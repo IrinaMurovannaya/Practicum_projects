@@ -8,7 +8,7 @@
 
 ### Файлы проекта
 
-- [ipynb](notebooks/analysis.ipynb)
+- [ipynb](Practicum_projects/01_индустрия_маркетплейсов/1_Индустрия маркетплейсов.ipynb)
 
 ### Структура дашборда
 
