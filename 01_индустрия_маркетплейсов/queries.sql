@@ -140,4 +140,38 @@ select
 from cte;
 
 
--- 3. Метрики
+-- 3. Метрики:
+
+-- Выручка
+COALESCE(SUM(case when rn_order_id = 1 then order_total_amount end), 0)
+
+-- Средний чек
+COALESCE(ROUND(SUM(case when rn_order_id = 1 then order_total_amount end)::numeric/COUNT(DISTINCT order_id)::numeric , 2), 0)
+
+-- DAU
+COUNT(DISTINCT CASE WHEN order_id IS NOT NULL AND user_type = 'buyer' THEN user_id END)
+ 
+-- LTV
+COALESCE(
+    SUM(total_amount) FILTER (
+        WHERE order_date >= registration_date
+        AND order_date < registration_date + INTERVAL '3 months'
+    ),
+0
+) / COUNT(DISTINCT user_id)::NUMERIC
+
+ -- Convertion
+COUNT(DISTINCT user_id) filter (WHERE order_id IS NOT NULL)::NUMERIC / COUNT(DISTINCT user_id)
+
+-- Retention Rate
+COUNT(DISTINCT user_id) filter (WHERE order_date >= registration_date AND order_date < registration_date + INTERVAL '1 month') / COUNT(DISTINCT user_id) ::FLOAT
+
+-- ARPU
+COALESCE(SUM(CASE WHEN rn_order_id = 1 THEN order_total_amount END), 0) 
+/ 
+NULLIF(COUNT(DISTINCT buyer_user_id), 0)  
+
+-- ARPPU
+COALESCE(SUM(CASE WHEN rn_order_id = 1 AND order_status <> 'canceled' THEN order_total_amount END), 0) 
+/ 
+NULLIF(COUNT(DISTINCT CASE WHEN order_status <> 'canceled' THEN buyer_user_id END), 0) 
