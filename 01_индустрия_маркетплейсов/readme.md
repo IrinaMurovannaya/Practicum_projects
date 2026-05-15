@@ -8,7 +8,7 @@
 
 ### Файлы проекта
 
-[ipynb](Practicum_projects/01_индустрия_маркетплейсов/01_индустрия_маркетплейсов.ipynb)
+[ipynb](https://github.com/IrinaMurovannaya/Practicum_projects/blob/main/01_индустрия_маркетплейсов/01_индустрия_маркетплейсов.ipynb)
 
 ### Структура дашборда
 
